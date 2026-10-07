@@ -36,8 +36,12 @@ type LocalDateTime = {
   timeLabel: string;
 };
 
-function getLocalDateTime(startsAt: string, timeZone: string): LocalDateTime {
+function getLocalDateTime(
+  startsAt: string,
+  timeZone: string,
+): LocalDateTime {
   const instant = new Date(startsAt);
+
   const parts = Object.fromEntries(
     new Intl.DateTimeFormat("en-US", {
       timeZone,
@@ -52,12 +56,14 @@ function getLocalDateTime(startsAt: string, timeZone: string): LocalDateTime {
       .filter((part) => part.type !== "literal")
       .map((part) => [part.type, part.value]),
   );
+
   const weekday = new Intl.DateTimeFormat("en-US", {
     timeZone,
     weekday: "long",
   })
     .format(instant)
     .toLowerCase();
+
   const day = weekday === "sunday" ? "sunday" : "saturday";
 
   return {
@@ -99,30 +105,36 @@ export function recommendAvailability(
   const ranking = options
     .map((option) => {
       const local = getLocalDateTime(option.startsAt, timeZone);
+      const responseCount = counts.get(option.id) ?? 0;
+
       return {
         optionId: option.id,
         startsAt: option.startsAt,
         ...local,
-        responseCount: counts.get(option.id) ?? 0,
+        responseCount,
         responsePercentage:
           responses.length === 0
             ? 0
-            : Math.round(((counts.get(option.id) ?? 0) / responses.length) * 100),
+            : Math.round((responseCount / responses.length) * 100),
       };
     })
     .sort((a, b) => {
       if (a.responseCount !== b.responseCount) {
         return b.responseCount - a.responseCount;
       }
+
       if (a.hour !== b.hour) {
         return a.hour - b.hour;
       }
+
       if (a.minute !== b.minute) {
         return a.minute - b.minute;
       }
+
       if (a.dateKey !== b.dateKey) {
         return a.dateKey.localeCompare(b.dateKey);
       }
+
       return a.optionId.localeCompare(b.optionId);
     })
     .map(({ dateKey: _dateKey, hour: _hour, minute: _minute, ...entry }) => entry);
@@ -156,9 +168,28 @@ export function recommendAvailability(
   }
 
   const recommendedCount = ranking[0].responseCount;
-  const tieCount = ranking.filter(
+
+  const tiedOptions = ranking.filter(
     (entry) => entry.responseCount === recommendedCount,
-  ).length;
+  );
+
+  const hasTie = tiedOptions.length > 1;
+
+  // Si hay empate, NO existe una recomendación única.
+  // El organizador debe elegir manualmente entre las opciones empatadas.
+  if (hasTie) {
+    return {
+      recommendedOptionId: null,
+      recommendedCount,
+      secondOptionId: null,
+      secondCount: null,
+      totalResponses: responses.length,
+      ranking,
+      hasTie: true,
+      tieCount: tiedOptions.length,
+      recommendationStatus: "recommended",
+    };
+  }
 
   return {
     recommendedOptionId: ranking[0].optionId,
@@ -167,8 +198,8 @@ export function recommendAvailability(
     secondCount: ranking[1]?.responseCount ?? null,
     totalResponses: responses.length,
     ranking,
-    hasTie: tieCount > 1,
-    tieCount,
+    hasTie: false,
+    tieCount: 1,
     recommendationStatus: "recommended",
   };
 }
