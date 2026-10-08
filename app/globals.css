@@ -2026,3 +2026,387 @@ body:has(.login-page) .button-primary:disabled { opacity: 0.58; }
   .candy-edge::after { transition: none; }
   .candy-edge:hover::after { opacity: 0.35; }
 }
+
+.tournament-creation {
+  width: min(100%, 1120px);
+  gap: 22px;
+  color: var(--cr-text);
+}
+.tournament-creation-header {
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--cr-border-subtle);
+}
+.tournament-creation-header .eyebrow {
+  margin-bottom: 10px;
+  color: var(--cr-cyan);
+  font-size: var(--cr-font-eyebrow);
+  letter-spacing: 0.15em;
+}
+.tournament-creation-header h1 {
+  margin: 0 0 10px;
+  color: var(--cr-text);
+  font-size: var(--cr-font-page-title);
+  letter-spacing: -0.035em;
+}
+.tournament-creation-header .lede {
+  max-width: 660px;
+  color: var(--cr-muted);
+  font-size: var(--cr-font-body);
+}
+.tournament-steps {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 9px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.tournament-step {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 11px 12px;
+  border: 1px solid var(--cr-border-subtle);
+  border-radius: var(--cr-radius-control);
+  background: var(--cr-surface);
+  color: var(--cr-muted);
+  font-size: 11px;
+  font-weight: 650;
+  line-height: 1.3;
+}
+.tournament-step > span {
+  color: var(--cr-muted);
+  font-size: 10px;
+  font-variant-numeric: tabular-nums;
+  font-weight: 800;
+}
+.tournament-step.is-active {
+  border-color: var(--cr-border-active);
+  background: rgb(97 124 246 / 8%);
+  color: var(--cr-text);
+}
+.tournament-step.is-active > span { color: var(--cr-cyan); }
+.tournament-creation-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(250px, 0.42fr);
+  align-items: start;
+  gap: 16px;
+}
+.tournament-creation .tournament-form-panel {
+  min-width: 0;
+  min-height: 0;
+  padding: clamp(20px, 3vw, 30px);
+  border-color: var(--cr-border);
+  border-radius: var(--cr-radius-panel);
+  background:
+    linear-gradient(135deg, rgb(97 124 246 / 6%), transparent 38%),
+    var(--cr-surface);
+  color: var(--cr-text);
+  box-shadow: var(--cr-shadow);
+  animation: enter var(--cr-motion-normal) var(--cr-ease) both;
+}
+.tournament-panel-heading {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+}
+.tournament-panel-number {
+  width: 42px;
+  height: 42px;
+  flex: 0 0 42px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--cr-border-active);
+  border-radius: var(--cr-radius-control);
+  background: rgb(97 124 246 / 10%);
+  color: var(--cr-cyan);
+  font-size: 15px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+.tournament-panel-heading .eyebrow {
+  margin-bottom: 4px;
+  color: var(--cr-cyan);
+  font-size: var(--cr-font-eyebrow);
+  letter-spacing: 0.13em;
+}
+.tournament-creation .tournament-panel-heading h2 {
+  margin: 0;
+  color: var(--cr-text);
+  font-size: var(--cr-font-section-title);
+}
+.tournament-creation .tournament-panel-description {
+  max-width: none;
+  margin: 14px 0 0;
+  color: var(--cr-muted);
+  font-size: var(--cr-font-body);
+  line-height: 1.5;
+}
+.tournament-creation .tournament-form {
+  gap: 17px;
+  margin-top: 23px;
+}
+.tournament-creation .tournament-form > div:not(.platform-options) {
+  min-width: 0;
+}
+.tournament-creation .tournament-form label:not(.platform-option),
+.platform-fieldset legend {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  color: var(--cr-text);
+  font-size: 12px;
+  font-weight: 700;
+}
+.tournament-creation .tournament-form label > span,
+.platform-fieldset legend > span {
+  color: var(--cr-muted);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+.tournament-creation .tournament-form input:not([type="radio"]),
+.tournament-creation .tournament-form select,
+.tournament-creation .tournament-form textarea {
+  min-height: 48px;
+  border: 1px solid var(--cr-border);
+  border-radius: var(--cr-radius-control);
+  background: var(--cr-bg);
+  color: var(--cr-text);
+  font: inherit;
+  font-size: 14px;
+  transition:
+    border-color var(--cr-motion-fast) var(--cr-ease),
+    box-shadow var(--cr-motion-fast) var(--cr-ease),
+    background-color var(--cr-motion-fast) var(--cr-ease);
+}
+.tournament-creation .tournament-form textarea {
+  min-height: 130px;
+  line-height: 1.5;
+}
+.tournament-creation .tournament-form input::placeholder,
+.tournament-creation .tournament-form textarea::placeholder {
+  color: var(--cr-muted);
+  opacity: 0.72;
+}
+.tournament-creation .tournament-form input:not([type="radio"]):hover,
+.tournament-creation .tournament-form select:hover,
+.tournament-creation .tournament-form textarea:hover {
+  border-color: var(--cr-border-active);
+}
+.tournament-creation .tournament-form input:not([type="radio"]):focus-visible,
+.tournament-creation .tournament-form select:focus-visible,
+.tournament-creation .tournament-form textarea:focus-visible {
+  outline: none;
+  border-color: var(--cr-focus);
+  box-shadow: var(--cr-focus-ring);
+}
+.platform-fieldset {
+  min-width: 0;
+  display: grid;
+  gap: 9px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+.platform-fieldset legend { margin-bottom: 9px; }
+.platform-field-hint {
+  margin: 0;
+  color: var(--cr-muted);
+  font-size: 11px;
+  line-height: 1.4;
+}
+.platform-options {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+.platform-option {
+  position: relative;
+  min-width: 0;
+  min-height: 74px;
+  display: grid;
+  grid-template-columns: 20px minmax(0, 1fr);
+  align-content: center;
+  align-items: center;
+  gap: 9px;
+  padding: 12px;
+  border: 1px solid var(--cr-border);
+  border-radius: var(--cr-radius-control);
+  background: var(--cr-surface-2);
+  color: var(--cr-text);
+  cursor: pointer;
+  transition:
+    transform var(--cr-motion-fast) var(--cr-ease),
+    border-color var(--cr-motion-fast) var(--cr-ease),
+    background-color var(--cr-motion-fast) var(--cr-ease);
+}
+.platform-option input {
+  width: 18px;
+  height: 18px;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  accent-color: var(--cr-blue);
+}
+.platform-option > span:first-of-type {
+  min-width: 0;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+.platform-option:hover {
+  transform: translateY(-1px);
+  border-color: var(--cr-border-active);
+  background: var(--cr-surface-interactive);
+}
+.platform-option:focus-within {
+  outline: none;
+  box-shadow: var(--cr-focus-ring);
+}
+.platform-option.is-selected {
+  border-color: var(--cr-cyan);
+  background: rgb(79 216 255 / 7%);
+}
+.platform-selected-label {
+  grid-column: 2;
+  color: var(--cr-cyan);
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+.tournament-creation .tournament-form .tournament-form-error {
+  max-width: none;
+  margin: 0;
+  border-color: rgb(255 107 115 / 35%);
+  background: rgb(255 107 115 / 9%);
+  color: var(--cr-danger-text);
+}
+.tournament-creation .tournament-create-button {
+  width: 100%;
+  min-height: 52px;
+  justify-content: space-between;
+  margin-top: 1px;
+  border-color: transparent;
+  background: var(--cr-blue);
+  color: var(--cr-text);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.045em;
+}
+.tournament-creation .tournament-create-button:hover:not(:disabled) {
+  background: var(--cr-blue-hover);
+}
+.tournament-create-button > span {
+  font-size: 20px;
+  font-weight: 400;
+}
+.tournament-automation-panel {
+  min-width: 0;
+  display: grid;
+  align-content: start;
+  gap: 13px;
+  padding: 22px;
+  border: 1px solid var(--cr-border-subtle);
+  border-radius: var(--cr-radius-panel);
+  background:
+    linear-gradient(145deg, rgb(79 216 255 / 5%), transparent 48%),
+    var(--cr-surface);
+  color: var(--cr-text);
+  animation: enter var(--cr-motion-normal) var(--cr-ease) both;
+}
+.tournament-automation-panel .eyebrow {
+  margin: 0;
+  color: var(--cr-cyan);
+  font-size: var(--cr-font-eyebrow);
+  letter-spacing: 0.13em;
+}
+.tournament-automation-panel h2 {
+  margin: 0;
+  color: var(--cr-text);
+  font-size: 18px;
+  line-height: 1.3;
+}
+.tournament-automation-panel > p:not(.eyebrow) {
+  margin: 0;
+  color: var(--cr-muted);
+  font-size: 13px;
+  line-height: 1.55;
+}
+.tournament-automation-panel ul {
+  display: grid;
+  gap: 10px;
+  margin: 2px 0 0;
+  padding: 14px 0;
+  border-top: 1px solid var(--cr-border-subtle);
+  border-bottom: 1px solid var(--cr-border-subtle);
+  list-style: none;
+}
+.tournament-automation-panel li {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  color: var(--cr-text);
+  font-size: 12px;
+  line-height: 1.4;
+}
+.tournament-automation-panel li > span {
+  color: var(--cr-cyan);
+  font-weight: 800;
+}
+.tournament-automation-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  color: var(--cr-yellow);
+  font-size: 12px;
+  line-height: 1.45;
+}
+.tournament-automation-note strong { color: var(--cr-text); }
+@media (max-width: 900px) {
+  .tournament-creation-layout {
+    grid-template-columns: minmax(0, 1fr) minmax(220px, 0.55fr);
+  }
+  .tournament-step {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 5px;
+  }
+}
+@media (max-width: 680px) {
+  .tournament-creation { gap: 17px; }
+  .tournament-creation-layout { grid-template-columns: 1fr; }
+  .tournament-automation-panel { order: 2; }
+  .tournament-steps { gap: 6px; }
+  .tournament-step {
+    align-items: flex-start;
+    gap: 4px;
+    padding: 8px 7px;
+    font-size: 10px;
+    overflow-wrap: anywhere;
+  }
+}
+@media (max-width: 420px) {
+  .tournament-steps { gap: 4px; }
+  .tournament-step {
+    padding: 7px 5px;
+    font-size: 9px;
+  }
+  .tournament-creation .tournament-form-panel,
+  .tournament-automation-panel { padding: 18px 15px; }
+  .platform-options { grid-template-columns: 1fr; }
+  .platform-option { min-height: 60px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tournament-creation .tournament-form-panel,
+  .tournament-automation-panel { animation: none; }
+  .platform-option,
+  .tournament-creation .tournament-form input,
+  .tournament-creation .tournament-form select,
+  .tournament-creation .tournament-form textarea,
+  .tournament-creation .tournament-create-button { transition-duration: 1ms; }
+  .platform-option:hover { transform: none; }
+}

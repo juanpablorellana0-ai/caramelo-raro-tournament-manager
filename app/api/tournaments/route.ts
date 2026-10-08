@@ -1,11 +1,13 @@
 import { NextResponse } from "next/server";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { isPlatformForGame } from "@/lib/tournament-platform";
 
 type CreateTournamentBody = {
-  name: string;
-  game: string;
-  format: string;
-  rules: string;
+  name?: unknown;
+  game?: unknown;
+  platform?: unknown;
+  format?: unknown;
+  rules?: unknown;
 };
 
 export async function POST(request: Request) {
@@ -24,16 +26,32 @@ export async function POST(request: Request) {
       );
     }
 
-    const body = (await request.json()) as CreateTournamentBody;
+    const body: unknown = await request.json();
+    if (!body || typeof body !== "object") {
+      return NextResponse.json(
+        { error: "Todos los campos son obligatorios." },
+        { status: 400 },
+      );
+    }
 
-    const name = body.name?.trim();
-    const game = body.game?.trim();
-    const format = body.format?.trim();
-    const rules = body.rules?.trim();
+    const input = body as CreateTournamentBody;
+    const name = typeof input.name === "string" ? input.name.trim() : "";
+    const game = typeof input.game === "string" ? input.game.trim() : "";
+    const platform =
+      typeof input.platform === "string" ? input.platform.trim() : "";
+    const format = typeof input.format === "string" ? input.format.trim() : "";
+    const rules = typeof input.rules === "string" ? input.rules.trim() : "";
 
     if (!name || !game || !format || !rules) {
       return NextResponse.json(
         { error: "Todos los campos son obligatorios." },
+        { status: 400 },
+      );
+    }
+
+    if (!isPlatformForGame(game, platform)) {
+      return NextResponse.json(
+        { error: "Selecciona una plataforma compatible con el juego." },
         { status: 400 },
       );
     }
@@ -59,6 +77,7 @@ export async function POST(request: Request) {
         format,
         rules_snapshot: {
           game,
+          platform,
           rules,
         },
         timezone: organizer.default_timezone,
