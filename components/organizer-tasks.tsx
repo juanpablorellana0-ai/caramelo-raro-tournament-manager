@@ -231,7 +231,7 @@ export default function OrganizerTasks({
   }
 
   return (
-    <section className="summary-panel organizer-tasks command-tasks">
+    <section className="summary-panel organizer-tasks command-tasks candy-edge">
       <p className="eyebrow">OPERACIONES</p>
       <h2>Tareas del torneo</h2>
 

@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { updateCandyEdge } from "@/components/candy-edge";
 import OrganizerResults from "@/components/organizer-results";
 import OrganizerTasks from "@/components/organizer-tasks";
 
@@ -274,8 +275,8 @@ export default function OrganizerAvailability({
           : "Pendiente";
 
   return (
-    <div className="page-stack command-center">
-      <header className="command-hero">
+    <div className="page-stack command-center" onPointerMove={updateCandyEdge}>
+      <header className="command-hero candy-edge">
         <div className="command-hero-main">
           <p className="eyebrow">TOURNAMENT COMMAND CENTER</p>
           <h1>{tournament.title}</h1>
@@ -307,7 +308,7 @@ export default function OrganizerAvailability({
         </div>
       </header>
 
-      <section className="command-overview" aria-label="Estado operativo">
+      <section className="command-overview candy-edge" aria-label="Estado operativo">
         <div className="command-overview-heading">
           <span className="command-overview-marker" aria-hidden="true" />
           <span>Vista operativa</span>
@@ -329,7 +330,7 @@ export default function OrganizerAvailability({
       </section>
 
       <div className="command-setup-grid">
-        <section className="summary-panel command-panel command-options-panel">
+        <section className="summary-panel command-panel command-options-panel candy-edge">
           <div className="command-section-heading">
             <div>
               <p className="eyebrow">DISPONIBILIDAD</p>
@@ -387,7 +388,7 @@ export default function OrganizerAvailability({
         </section>
 
         {!pollExists ? (
-          <section className="summary-panel command-panel command-poll-panel">
+          <section className="summary-panel command-panel command-poll-panel candy-edge">
             <p className="eyebrow">ENCUESTA PÚBLICA</p>
             <h2>Genera el enlace cuando estés listo</h2>
             <p className="command-panel-description">
@@ -404,7 +405,7 @@ export default function OrganizerAvailability({
             </button>
           </section>
         ) : (
-          <section className="summary-panel command-panel command-poll-panel command-poll-generated">
+          <section className="summary-panel command-panel command-poll-panel command-poll-generated candy-edge">
             <p className="eyebrow">ENCUESTA GENERADA</p>
             <h2>Comparte el enlace público</h2>
             {shareUrl ? (

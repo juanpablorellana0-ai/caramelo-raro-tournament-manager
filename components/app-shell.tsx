@@ -1,8 +1,10 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState, type ReactNode } from "react";
+import { updateCandyEdge } from "@/components/candy-edge";
 
 const navigation = [
   { href: "/", label: "Dashboard", icon: "dashboard" },
@@ -25,7 +27,7 @@ function NavigationLinks({ pathname, onNavigate }: NavigationProps) {
 
         return (
           <Link
-            className={`nav-link${active ? " nav-link-active" : ""}`}
+            className={`nav-link candy-edge${active ? " nav-link-active" : ""}`}
             href={item.href}
             key={item.href}
             aria-current={active ? "page" : undefined}
@@ -80,10 +82,16 @@ export function AppShell({ children }: { children: ReactNode }) {
   }, [pathname]);
 
   return (
-    <div className="app-shell">
+    <div className="app-shell" onPointerMove={updateCandyEdge}>
       <aside className="sidebar" aria-label="Navegación lateral">
         <Link className="brand" href="/" aria-label="Caramelo Raro, inicio">
-          <span className="brand-mark" aria-hidden="true">CR</span>
+          <Image
+            className="brand-logo"
+            src="/assets/caramelo-raro-logo.png"
+            width={836}
+            height={836}
+            alt=""
+          />
           <span className="brand-copy">
             <span className="brand-name">Caramelo Raro</span>
             <span className="brand-product">Tournament Manager</span>
@@ -117,7 +125,13 @@ export function AppShell({ children }: { children: ReactNode }) {
           </button>
 
           <Link className="mobile-brand" href="/" aria-label="Caramelo Raro, inicio">
-            <span className="brand-mark" aria-hidden="true">CR</span>
+            <Image
+              className="brand-logo"
+              src="/assets/caramelo-raro-logo.png"
+              width={836}
+              height={836}
+              alt=""
+            />
             <span className="brand-copy">
               <span className="brand-name">Caramelo Raro</span>
               <span className="brand-product">Tournament Manager</span>

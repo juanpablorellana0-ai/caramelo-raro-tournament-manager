@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { updateCandyEdge } from "@/components/candy-edge";
 import type { TournamentStatus } from "@/types/tournament";
 
 export type DashboardTournament = {
@@ -96,10 +97,14 @@ export default function DashboardTournamentList({
 
   return (
     <>
-      <div className="dashboard-grid" aria-label="Torneos del organizador">
+      <div
+        className="dashboard-grid"
+        aria-label="Torneos del organizador"
+        onPointerMove={updateCandyEdge}
+      >
         {visibleTournaments.map((tournament, index) => (
           <article
-            className={`summary-panel tournament-card${index === 0 ? " tournament-card-featured" : ""}`}
+            className={`summary-panel tournament-card candy-edge${index === 0 ? " tournament-card-featured" : ""}`}
             key={tournament.id}
           >
             <div className="tournament-card-heading">

@@ -1,7 +1,9 @@
 "use client";
 
+import Image from "next/image";
 import { FormEvent, useState } from "react";
 import { createBrowserClient } from "@supabase/ssr";
+import { updateCandyEdge } from "@/components/candy-edge";
 import { getSupabaseConfig } from "@/lib/supabase/config";
 
 export default function LoginPage() {
@@ -39,10 +41,16 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="login-page">
-      <section className="login-panel" aria-labelledby="login-title">
+    <div className="login-page" onPointerMove={updateCandyEdge}>
+      <section className="login-panel candy-edge" aria-labelledby="login-title">
         <div className="login-brand">
-          <span className="login-brand-mark" aria-hidden="true">CR</span>
+          <Image
+            className="login-brand-logo"
+            src="/assets/caramelo-raro-logo.png"
+            width={836}
+            height={836}
+            alt=""
+          />
           <span>
             <span className="login-brand-name">Caramelo Raro</span>
             <span className="login-brand-product">Tournament Manager</span>
@@ -90,7 +98,7 @@ export default function LoginPage() {
             </div>
           )}
 
-          <button type="submit" disabled={loading} className="button button-primary login-submit">
+          <button type="submit" disabled={loading} className="button button-primary login-submit candy-edge">
             {loading ? "Iniciando sesión..." : "Iniciar sesión"}
             {!loading && <span aria-hidden="true">→</span>}
           </button>
