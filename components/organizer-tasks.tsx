@@ -231,8 +231,8 @@ export default function OrganizerTasks({
   }
 
   return (
-    <section className="summary-panel organizer-tasks">
-      <p className="eyebrow">CHECKLIST</p>
+    <section className="summary-panel organizer-tasks command-tasks">
+      <p className="eyebrow">OPERACIONES</p>
       <h2>Tareas del torneo</h2>
 
       {loading ? (

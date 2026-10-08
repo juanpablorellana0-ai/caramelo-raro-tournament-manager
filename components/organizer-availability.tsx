@@ -74,6 +74,7 @@ export default function OrganizerAvailability({
   const [tournament, setTournament] = useState<TournamentInfo | null>(null);
   const [options, setOptions] = useState<AvailabilityOption[]>([]);
   const [pollExists, setPollExists] = useState(false);
+  const [pollStatus, setPollStatus] = useState<"open" | "closed" | null>(null);
   const [shareUrl, setShareUrl] = useState("");
   const [loading, setLoading] = useState(true);
   const [generatingOptions, setGeneratingOptions] = useState(false);
@@ -143,6 +144,7 @@ export default function OrganizerAvailability({
           tournament?: TournamentInfo;
           options?: AvailabilityOption[];
           pollExists?: boolean;
+          pollStatus?: "open" | "closed" | null;
         };
 
         if (!response.ok || !data.tournament) {
@@ -159,6 +161,7 @@ export default function OrganizerAvailability({
         setTournament(data.tournament);
         setOptions(activeOptions);
         setPollExists(data.pollExists ?? false);
+        setPollStatus(data.pollStatus ?? null);
 
         if (activeOptions.length === 0 && !data.pollExists) {
           await generateDefaultOptions();
@@ -221,6 +224,7 @@ export default function OrganizerAvailability({
 
       setShareUrl(`${window.location.origin}${data.sharePath}`);
       setPollExists(true);
+      setPollStatus(null);
       setNotice("La encuesta está lista para compartir.");
     } catch {
       setError("No fue posible conectar con el servidor.");
@@ -240,7 +244,7 @@ export default function OrganizerAvailability({
 
   if (loading) {
     return (
-      <div className="page-stack" aria-live="polite">
+      <div className="page-stack command-center" aria-live="polite">
         <p className="lede">Preparando el próximo torneo…</p>
       </div>
     );
@@ -248,7 +252,7 @@ export default function OrganizerAvailability({
 
   if (!tournament) {
     return (
-      <div className="page-stack">
+      <div className="page-stack command-center">
         <section className="poll-notice" role="alert">
           <span className="notice-mark" aria-hidden="true">!</span>
           <div>
@@ -260,97 +264,147 @@ export default function OrganizerAvailability({
     );
   }
 
+  const pollStateLabel =
+    pollStatus === "open"
+      ? "Abierta"
+      : pollStatus === "closed"
+        ? "Cerrada"
+        : pollExists
+          ? "Generada"
+          : "Pendiente";
+
   return (
-    <div className="page-stack">
-      <section className="page-heading">
-        <p className="eyebrow">ORGANIZACIÓN</p>
-        <h1>Tu próximo torneo</h1>
-        <p className="lede">
-          Revisa la información y comparte la encuesta de disponibilidad.
-        </p>
-      </section>
-
-      <section className="summary-panel">
-        <p className="eyebrow">TORNEO</p>
-        <h2>{tournament.title}</h2>
-        <p>
-          {displayGame(tournament.game)} · {tournament.format}
-        </p>
-        {tournament.rules && <p>{tournament.rules}</p>}
-      </section>
-
-      <section className="summary-panel">
-        <p className="eyebrow">DISPONIBILIDAD PROPUESTA</p>
-        <h2>Opciones que recibirán los participantes</h2>
-        <p>
-          El torneo final se jugará un solo día. Estas opciones solo recogen
-          cuándo pueden participar; no se anunciará nada automáticamente.
-        </p>
-
-        {options.length > 0 ? (
-          <div className="proposed-days">
-            {DAYS.map(({ key, label }) => {
-              const dayOptions = optionsByDay[key];
-              if (dayOptions.length === 0) return null;
-              const firstOption = dayOptions[0];
-
-              return (
-                <section className="proposed-day" key={key}>
-                  <h3>
-                    {label}, {formatDate(firstOption, tournament.timeZone)}
-                  </h3>
-                  <ul className="proposed-hours">
-                    {dayOptions.map((option) => (
-                      <li key={option.id}>
-                        <span aria-hidden="true">✓</span>
-                        {formatTime(option, tournament.timeZone)}
-                      </li>
-                    ))}
-                  </ul>
-                </section>
-              );
-            })}
-          </div>
-        ) : (
-          <div className="availability-empty">
-            <p>
-              {generatingOptions
-                ? "Generando automáticamente el próximo sábado y domingo…"
-                : "Todavía no se pudieron generar las opciones."}
-            </p>
-            {!pollExists && !generatingOptions && (
-              <button
-                type="button"
-                className="button button-secondary"
-                onClick={generateDefaultOptions}
-              >
-                Reintentar generación automática
-              </button>
-            )}
-          </div>
-        )}
-      </section>
-
-      {!pollExists ? (
-        <section className="summary-panel summary-highlight">
-          <p className="eyebrow">ENCUESTA PÚBLICA</p>
-          <h2>Genera el enlace cuando estés listo</h2>
-          <p>
-            Los horarios ya están definidos. Generar y compartir la encuesta
-            no anuncia el torneo.
+    <div className="page-stack command-center">
+      <header className="command-hero">
+        <div className="command-hero-main">
+          <p className="eyebrow">TOURNAMENT COMMAND CENTER</p>
+          <h1>{tournament.title}</h1>
+          <p className="command-hero-format">
+            {displayGame(tournament.game)} <span aria-hidden="true">·</span>{" "}
+            {tournament.format}
           </p>
-          <button
-            type="button"
-            className="button button-primary"
-            onClick={handleCreatePoll}
-            disabled={creatingPoll || generatingOptions || options.length === 0}
+          {tournament.rules && (
+            <p className="command-hero-rules">{tournament.rules}</p>
+          )}
+        </div>
+        <div className="command-hero-status">
+          <span className="command-status-caption">ENCUESTA PÚBLICA</span>
+          <span
+            className={`command-status-pill${pollStatus === "open" ? " command-status-ready" : ""}`}
+            role="status"
           >
-            {creatingPoll ? "Generando encuesta…" : "Generar encuesta"}
-          </button>
+            <span aria-hidden="true">
+              {pollStatus === "open"
+                ? "✓"
+                : pollStatus === "closed"
+                  ? "×"
+                  : pollExists
+                    ? "◌"
+                    : "○"}
+            </span>
+            {pollStateLabel}
+          </span>
+        </div>
+      </header>
+
+      <section className="command-overview" aria-label="Estado operativo">
+        <div className="command-overview-heading">
+          <span className="command-overview-marker" aria-hidden="true" />
+          <span>Vista operativa</span>
+        </div>
+        <div className="command-overview-facts">
+          <div className="command-overview-fact">
+            <span>Opciones activas</span>
+            <strong>{options.length}</strong>
+          </div>
+          <div className="command-overview-fact">
+            <span>Zona horaria</span>
+            <strong>{tournament.timeZone}</strong>
+          </div>
+          <div className="command-overview-fact">
+            <span>Estado de encuesta</span>
+            <strong>{pollStateLabel}</strong>
+          </div>
+        </div>
+      </section>
+
+      <div className="command-setup-grid">
+        <section className="summary-panel command-panel command-options-panel">
+          <div className="command-section-heading">
+            <div>
+              <p className="eyebrow">DISPONIBILIDAD</p>
+              <h2>Opciones propuestas</h2>
+            </div>
+            <span className="command-count">{options.length} horarios</span>
+          </div>
+          <p className="command-panel-description">
+            El torneo final se jugará un solo día. Estas opciones solo recogen
+            cuándo pueden participar; no se anunciará nada automáticamente.
+          </p>
+
+          {options.length > 0 ? (
+            <div className="proposed-days">
+              {DAYS.map(({ key, label }) => {
+                const dayOptions = optionsByDay[key];
+                if (dayOptions.length === 0) return null;
+                const firstOption = dayOptions[0];
+
+                return (
+                  <section className="proposed-day" key={key}>
+                    <h3>
+                      {label}, {formatDate(firstOption, tournament.timeZone)}
+                    </h3>
+                    <ul className="proposed-hours">
+                      {dayOptions.map((option) => (
+                        <li key={option.id}>
+                          <span aria-hidden="true">✓</span>
+                          {formatTime(option, tournament.timeZone)}
+                        </li>
+                      ))}
+                    </ul>
+                  </section>
+                );
+              })}
+            </div>
+          ) : (
+            <div className="availability-empty">
+              <p>
+                {generatingOptions
+                  ? "Generando automáticamente el próximo sábado y domingo…"
+                  : "Todavía no se pudieron generar las opciones."}
+              </p>
+              {!pollExists && !generatingOptions && (
+                <button
+                  type="button"
+                  className="button button-secondary"
+                  onClick={generateDefaultOptions}
+                >
+                  Reintentar generación automática
+                </button>
+              )}
+            </div>
+          )}
         </section>
-      ) : (
-        <>
-          <section className="summary-panel summary-highlight">
+
+        {!pollExists ? (
+          <section className="summary-panel command-panel command-poll-panel">
+            <p className="eyebrow">ENCUESTA PÚBLICA</p>
+            <h2>Genera el enlace cuando estés listo</h2>
+            <p className="command-panel-description">
+              Los horarios ya están definidos. Generar y compartir la encuesta
+              no anuncia el torneo.
+            </p>
+            <button
+              type="button"
+              className="button button-primary"
+              onClick={handleCreatePoll}
+              disabled={creatingPoll || generatingOptions || options.length === 0}
+            >
+              {creatingPoll ? "Generando encuesta…" : "Generar encuesta"}
+            </button>
+          </section>
+        ) : (
+          <section className="summary-panel command-panel command-poll-panel command-poll-generated">
             <p className="eyebrow">ENCUESTA GENERADA</p>
             <h2>Comparte el enlace público</h2>
             {shareUrl ? (
@@ -365,17 +419,30 @@ export default function OrganizerAvailability({
                 </button>
               </div>
             ) : (
-              <p>
+              <p className="command-panel-description">
                 El enlace no está disponible en este navegador. Si ya lo
                 compartiste, seguirá funcionando para los participantes.
               </p>
             )}
           </section>
+        )}
+      </div>
+
+      {pollExists && (
+        <section className="command-section" aria-label="Resultados y comunicación">
+          <div className="command-section-heading command-major-heading">
+            <div>
+              <p className="eyebrow">DECISIÓN Y COMUNICACIÓN</p>
+              <h2>Resultados del torneo</h2>
+            </div>
+          </div>
           <OrganizerResults tournamentId={tournamentId} />
-        </>
+        </section>
       )}
 
-      <OrganizerTasks tournamentId={tournamentId} />
+      <section className="command-section" aria-label="Operaciones del torneo">
+        <OrganizerTasks tournamentId={tournamentId} />
+      </section>
 
       {error && <p className="poll-error" role="alert">{error}</p>}
       {notice && <p className="poll-success" role="status">{notice}</p>}

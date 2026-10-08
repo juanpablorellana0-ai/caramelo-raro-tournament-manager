@@ -1137,3 +1137,587 @@ body:has(.login-page) .button-primary:disabled { opacity: 0.58; }
     transition-duration: 1ms;
   }
 }
+
+.command-center {
+  width: min(100%, 1120px);
+  gap: 22px;
+  color: var(--cr-text);
+}
+.command-center .eyebrow,
+.command-results .eyebrow,
+.command-tasks .eyebrow {
+  margin-bottom: 8px;
+  color: var(--cr-cyan);
+  font-size: var(--cr-font-eyebrow);
+  letter-spacing: 0.14em;
+}
+.command-hero {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 28px;
+  overflow: hidden;
+  padding: clamp(24px, 4vw, 36px);
+  border: 1px solid var(--cr-border);
+  border-radius: var(--cr-radius-panel);
+  background:
+    linear-gradient(120deg, rgb(97 124 246 / 9%), transparent 56%),
+    var(--cr-surface);
+  animation: enter var(--cr-motion-normal) var(--cr-ease) both;
+}
+.command-hero::after {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: min(32%, 260px);
+  height: 4px;
+  background: linear-gradient(90deg, transparent, var(--cr-blue));
+  content: "";
+  opacity: 0.7;
+}
+.command-hero-main { min-width: 0; }
+.command-hero .eyebrow { margin-bottom: 12px; }
+.command-hero h1 {
+  margin: 0 0 12px;
+  color: var(--cr-text);
+  font-size: clamp(27px, 4vw, 40px);
+  line-height: 1.14;
+  letter-spacing: -0.035em;
+  overflow-wrap: anywhere;
+}
+.command-hero-format {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  color: var(--cr-muted);
+  font-size: 15px;
+  font-weight: 600;
+}
+.command-hero-format > span { color: var(--cr-cyan); }
+.command-hero-rules {
+  max-width: 700px;
+  margin: 12px 0 0;
+  color: var(--cr-muted);
+  font-size: 13px;
+  line-height: 1.55;
+  white-space: pre-wrap;
+}
+.command-hero-status {
+  flex: 0 0 auto;
+  display: grid;
+  justify-items: end;
+  gap: 9px;
+  padding-top: 2px;
+}
+.command-status-caption {
+  color: var(--cr-muted);
+  font-size: var(--cr-font-eyebrow);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
+.command-status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 34px;
+  padding: 6px 11px;
+  border: 1px solid rgb(255 211 78 / 27%);
+  border-radius: 5px;
+  background: rgb(255 211 78 / 6%);
+  color: var(--cr-text);
+  font-size: var(--cr-font-status);
+  font-weight: 750;
+  letter-spacing: 0.065em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.command-status-pill > span { color: var(--cr-yellow); font-size: 13px; }
+.command-status-ready {
+  border-color: rgb(79 216 255 / 28%);
+  background: rgb(79 216 255 / 6%);
+}
+.command-status-ready > span { color: var(--cr-cyan); }
+.command-overview {
+  display: grid;
+  grid-template-columns: minmax(130px, 0.65fr) 2fr;
+  align-items: center;
+  gap: 18px;
+  padding: 14px 18px;
+  border: 1px solid var(--cr-border-subtle);
+  border-radius: var(--cr-radius-panel);
+  background: var(--cr-surface);
+}
+.command-overview-heading {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: var(--cr-text);
+  font-size: 12px;
+  font-weight: 700;
+}
+.command-overview-marker {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--cr-cyan);
+}
+.command-overview-facts {
+  display: flex;
+  justify-content: flex-end;
+  gap: clamp(20px, 4vw, 48px);
+}
+.command-overview-fact {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+.command-overview-fact > span {
+  color: var(--cr-muted);
+  font-size: 10px;
+  font-weight: 650;
+}
+.command-overview-fact > strong {
+  color: var(--cr-text);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+}
+.command-setup-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(280px, 0.75fr);
+  align-items: stretch;
+  gap: 14px;
+}
+.command-center .summary-panel,
+.command-results .summary-panel,
+.command-tasks {
+  min-width: 0;
+  min-height: 0;
+  padding: 21px;
+  border-color: var(--cr-border-subtle);
+  border-radius: var(--cr-radius-panel);
+  background: var(--cr-surface);
+  color: var(--cr-text);
+  box-shadow: none;
+}
+.command-center .summary-panel p:not(.eyebrow),
+.command-results .summary-panel p:not(.eyebrow),
+.command-tasks p:not(.eyebrow) {
+  color: var(--cr-muted);
+}
+.command-section-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 13px;
+}
+.command-section-heading .eyebrow { margin-bottom: 6px; }
+.command-section-heading h2 {
+  margin: 0;
+  color: var(--cr-text);
+  font-size: 18px;
+}
+.command-count {
+  color: var(--cr-muted);
+  font-size: 11px;
+  white-space: nowrap;
+}
+.command-panel-description {
+  margin: 0;
+  color: var(--cr-muted);
+  font-size: 13px;
+  line-height: 1.55;
+}
+.command-options-panel {
+  display: flex;
+  flex-direction: column;
+}
+.command-options-panel .command-section-heading { align-items: center; }
+.command-options-panel .proposed-days {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 17px;
+}
+.command-options-panel .proposed-day {
+  min-width: 0;
+  padding: 13px;
+  border-color: var(--cr-border-subtle);
+  border-radius: 6px;
+  background: var(--cr-surface-2);
+}
+.command-options-panel .proposed-day h3 {
+  margin-bottom: 11px;
+  color: var(--cr-text);
+  font-size: 13px;
+}
+.command-options-panel .proposed-hours {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 9px 12px;
+}
+.command-options-panel .proposed-hours li {
+  min-width: 0;
+  color: var(--cr-muted);
+  font-size: 12px;
+}
+.command-options-panel .proposed-hours li span { color: var(--cr-cyan); }
+.command-options-panel .availability-empty {
+  align-content: start;
+  margin-top: 18px;
+}
+.command-options-panel .availability-empty p { color: var(--cr-muted); }
+.command-poll-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 12px;
+  border-top: 2px solid var(--cr-blue) !important;
+}
+.command-poll-panel h2 {
+  margin: 0;
+  color: var(--cr-text);
+  font-size: 18px;
+}
+.command-poll-panel .eyebrow { margin-bottom: 0; }
+.command-poll-panel .button { margin-top: 5px; }
+.command-poll-generated { border-top-color: var(--cr-cyan) !important; }
+.command-poll-generated .share-link { width: 100%; }
+.command-poll-generated .share-link a {
+  color: var(--cr-cyan);
+  font-size: 13px;
+  line-height: 1.5;
+}
+.command-poll-generated .share-link .button { margin-top: 0; }
+.command-section { min-width: 0; }
+.command-major-heading { margin-bottom: 15px; }
+.command-major-heading h2 { font-size: 20px; }
+.command-results {
+  gap: 13px;
+  min-width: 0;
+}
+.command-results .results-heading {
+  align-items: center;
+  gap: 18px;
+  padding: 0 1px 2px;
+}
+.command-results .results-heading h2 {
+  margin-bottom: 6px;
+  color: var(--cr-text);
+  font-size: 16px;
+}
+.command-results .results-response-count {
+  display: flex;
+  align-items: center;
+  justify-items: initial;
+  gap: 9px;
+  text-align: left;
+}
+.command-results .results-response-count strong {
+  color: var(--cr-cyan);
+  font-size: 26px;
+  font-variant-numeric: tabular-nums;
+}
+.command-results .results-response-count span {
+  max-width: 105px;
+  color: var(--cr-muted);
+  font-size: 11px;
+  line-height: 1.3;
+}
+.command-results .results-response-count .button {
+  min-height: 38px;
+  margin: 0 0 0 5px;
+}
+.command-results .summary-panel h3 {
+  color: var(--cr-text);
+}
+.command-results .command-decision {
+  position: relative;
+  overflow: hidden;
+  border-color: var(--cr-border);
+  background: var(--cr-surface);
+}
+.command-results .command-decision-recommendation {
+  border-left: 3px solid var(--cr-blue);
+}
+.command-results .command-decision-tie {
+  border-color: rgb(255 211 78 / 28%);
+  border-left: 3px solid var(--cr-yellow);
+  background:
+    linear-gradient(110deg, rgb(255 211 78 / 5%), transparent 58%),
+    var(--cr-surface);
+}
+.command-results .command-decision-tie .eyebrow { color: var(--cr-yellow); }
+.command-results .command-decision-approved {
+  border-color: rgb(79 216 255 / 30%);
+  border-left: 3px solid var(--cr-cyan);
+  background:
+    linear-gradient(110deg, rgb(79 216 255 / 6%), transparent 58%),
+    var(--cr-surface);
+}
+.command-results .command-decision-neutral { border-left: 3px solid var(--cr-muted); }
+.command-results .recommendation-date,
+.command-results .recommendation-time,
+.command-results .approved-time,
+.command-results .recommendation-count,
+.command-results .approved-status {
+  color: var(--cr-text) !important;
+}
+.command-results .recommendation-time,
+.command-results .approved-time {
+  color: var(--cr-cyan) !important;
+}
+.command-results .recommendation-count span,
+.command-results .second-option { color: var(--cr-muted) !important; }
+.command-results .second-option { margin-top: 9px; }
+.command-results .recommendation-actions .button-primary,
+.command-center .button-primary,
+.command-results .button-primary {
+  border-color: transparent;
+  background: var(--cr-blue);
+  color: var(--cr-text);
+}
+.command-results .recommendation-actions .button-primary:hover:not(:disabled),
+.command-center .button-primary:hover:not(:disabled) {
+  background: var(--cr-blue-hover);
+}
+.command-results .recommendation-actions .button-secondary,
+.command-center .button-secondary,
+.command-tasks .button-secondary {
+  border-color: var(--cr-border);
+  background: var(--cr-surface-2);
+  color: var(--cr-text);
+}
+.command-results .recommendation-actions .button-secondary:hover:not(:disabled),
+.command-center .button-secondary:hover:not(:disabled),
+.command-tasks .button-secondary:hover:not(:disabled) {
+  border-color: var(--cr-border-active);
+  background: var(--cr-surface-interactive);
+}
+.command-results .alternate-choice {
+  gap: 14px;
+  margin-top: 20px;
+  padding-top: 17px;
+  border-top: 1px solid var(--cr-border-subtle);
+}
+.command-results .alternate-choice h4 {
+  color: var(--cr-text);
+  font-size: 14px;
+  line-height: 1.45;
+}
+.command-results .alternate-options {
+  gap: 10px;
+  max-height: 380px;
+  padding: 2px;
+}
+.command-results .alternate-options .checkbox-row {
+  min-height: 64px;
+  align-items: flex-start;
+  gap: 13px;
+  padding: 15px 16px;
+  border-color: var(--cr-border);
+  border-radius: 7px;
+  background: var(--cr-surface-2);
+  color: var(--cr-text);
+  line-height: 1.5;
+  cursor: pointer;
+  transition:
+    border-color var(--cr-motion-fast) var(--cr-ease),
+    background-color var(--cr-motion-fast) var(--cr-ease);
+}
+.command-results .alternate-options .checkbox-row:hover {
+  border-color: var(--cr-border-active);
+}
+.command-results .alternate-options .checkbox-row:has(input:checked) {
+  border-color: var(--cr-blue);
+  background: rgb(97 124 246 / 10%);
+}
+.command-results .alternate-options input[type="radio"] {
+  width: 19px;
+  height: 19px;
+  flex: 0 0 19px;
+  margin: 2px 0 0;
+  accent-color: var(--cr-blue);
+}
+.command-results .alternate-options input[type="radio"]:focus-visible {
+  outline: none;
+  box-shadow: var(--cr-focus-ring);
+}
+.command-results .alternate-options .checkbox-row > span {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.command-results .recommendation-actions {
+  gap: 10px;
+  margin-top: 17px;
+}
+.command-results .command-availability-ranking {
+  min-width: 0;
+}
+.command-results .result-option {
+  gap: 10px;
+  padding: 12px 0;
+  border-top: 1px solid var(--cr-border-subtle);
+}
+.command-results .result-option-heading { color: var(--cr-text); }
+.command-results .result-percentage { color: var(--cr-muted); }
+.command-results .result-bar-track {
+  height: 7px;
+  background: var(--cr-surface-2);
+}
+.command-results .result-bar { background: var(--cr-blue); }
+.command-results .approved-status { color: var(--cr-cyan) !important; }
+.command-communication-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start;
+  gap: 13px;
+}
+.command-results .announcement-panel {
+  min-width: 0;
+  gap: 13px;
+  border-color: var(--cr-border-subtle);
+  background: var(--cr-surface);
+}
+.command-results .announcement-panel h2 {
+  color: var(--cr-text);
+  font-size: 17px;
+}
+.command-results .announcement-panel .announcement-not-published,
+.command-results .announcement-panel .limitless-generation-warning {
+  border-color: rgb(255 211 78 / 24%);
+  background: rgb(255 211 78 / 6%);
+  color: var(--cr-text) !important;
+}
+.command-results .announcement-details {
+  border-color: var(--cr-border-subtle);
+  background: var(--cr-surface-2);
+}
+.command-results .announcement-details dt,
+.command-results .announcement-version,
+.command-results .announcement-editor-hint {
+  color: var(--cr-muted) !important;
+}
+.command-results .announcement-details dd,
+.command-results .announcement-editor-label {
+  color: var(--cr-text);
+}
+.command-results .announcement-textarea {
+  border-color: var(--cr-border);
+  border-radius: var(--cr-radius-control);
+  background: var(--cr-bg);
+  color: var(--cr-text);
+}
+.command-results .announcement-textarea:focus-visible {
+  outline: none;
+  border-color: var(--cr-focus);
+  box-shadow: var(--cr-focus-ring);
+}
+.command-results .limitless-description-panel {
+  border-top: 1px solid var(--cr-border-subtle);
+}
+.command-results .announcement-feedback .poll-success {
+  border-color: rgb(88 199 165 / 30%);
+  background: rgb(88 199 165 / 8%);
+  color: var(--cr-success);
+}
+.command-results .announcement-feedback .poll-error {
+  border-color: rgb(255 107 115 / 35%);
+  background: rgb(255 107 115 / 8%);
+  color: var(--cr-danger-text);
+}
+.command-tasks h2 {
+  margin: 0 0 16px;
+  color: var(--cr-text);
+  font-size: 18px;
+}
+.command-tasks .task-list { gap: 10px; }
+.command-tasks .task-row {
+  min-height: 56px;
+  align-items: flex-start;
+  padding: 15px 16px;
+  border-color: var(--cr-border-subtle);
+  border-radius: 7px;
+  background: var(--cr-surface-2);
+  color: var(--cr-text);
+}
+.command-tasks .task-row input {
+  width: 19px;
+  height: 19px;
+  flex: 0 0 19px;
+  accent-color: var(--cr-blue);
+}
+.command-tasks .task-row:has(input:checked) {
+  border-color: rgb(88 199 165 / 30%);
+  background: rgb(88 199 165 / 6%);
+}
+.command-tasks .task-row-completed .task-title {
+  color: var(--cr-muted);
+}
+.command-tasks .task-title {
+  color: var(--cr-text);
+  font-size: 13px;
+  line-height: 1.45;
+}
+.command-tasks .task-form input {
+  border-color: var(--cr-border);
+  background: var(--cr-bg);
+  color: var(--cr-text);
+}
+.command-tasks .task-form input:focus-visible {
+  outline: none;
+  border-color: var(--cr-focus);
+  box-shadow: var(--cr-focus-ring);
+}
+.command-center > .poll-error,
+.command-center > .poll-success,
+.command-results > .poll-error,
+.command-results > .poll-success {
+  border-color: var(--cr-border);
+  background: var(--cr-surface-2);
+  color: var(--cr-text);
+}
+@media (max-width: 760px) {
+  .command-center { gap: 17px; }
+  .command-hero { flex-direction: column; gap: 18px; padding: 23px; }
+  .command-hero-status { justify-items: start; }
+  .command-overview {
+    grid-template-columns: 1fr;
+    gap: 13px;
+  }
+  .command-overview-facts {
+    justify-content: flex-start;
+    gap: 22px;
+  }
+  .command-setup-grid { grid-template-columns: 1fr; }
+  .command-results .results-heading { align-items: flex-start; flex-direction: column; }
+  .command-results .results-response-count {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+  .command-communication-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 480px) {
+  .command-hero { padding: 20px; }
+  .command-hero h1 { font-size: 27px; }
+  .command-overview-facts { flex-wrap: wrap; gap: 14px 20px; }
+  .command-overview-fact { min-width: min(100%, 120px); }
+  .command-options-panel .proposed-days { grid-template-columns: 1fr; }
+  .command-options-panel .proposed-hours { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .command-results .summary-panel,
+  .command-center .summary-panel,
+  .command-tasks { padding: 17px; }
+  .command-results .alternate-options .checkbox-row { padding: 14px; }
+  .command-results .recommendation-actions,
+  .command-results .recommendation-actions .button { width: 100%; }
+  .command-results .results-response-count .button {
+    width: 100%;
+    margin: 3px 0 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .command-hero { animation: none; }
+  .command-results .alternate-options .checkbox-row { transition-duration: 1ms; }
+}

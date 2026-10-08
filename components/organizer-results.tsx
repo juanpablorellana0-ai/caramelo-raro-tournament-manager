@@ -279,7 +279,7 @@ export default function OrganizerResults({
   );
 
   return (
-    <section className="organizer-results page-stack">
+    <section className="organizer-results page-stack command-results">
       <header className="results-heading">
         <div>
           <p className="eyebrow">RESULTADOS DE DISPONIBILIDAD</p>
@@ -313,7 +313,7 @@ export default function OrganizerResults({
       </header>
 
       {hasApprovedSchedule ? (
-        <div className="summary-panel summary-highlight">
+        <div className="summary-panel summary-highlight command-decision command-decision-approved">
           <p className="eyebrow">ESTADO DEL TORNEO</p>
 
           <h3>Horario aprobado</h3>
@@ -392,7 +392,7 @@ export default function OrganizerResults({
           )}
         </div>
       ) : results.recommendationStatus === "no_responses" ? (
-        <div className="summary-panel">
+        <div className="summary-panel command-decision command-decision-neutral">
           <p className="eyebrow">RECOMENDACIÓN</p>
 
           <h3>Aún no hay respuestas</h3>
@@ -403,13 +403,13 @@ export default function OrganizerResults({
           </p>
         </div>
       ) : results.recommendationStatus === "no_options" ? (
-        <div className="summary-panel">
+        <div className="summary-panel command-decision command-decision-neutral">
           <p className="eyebrow">RECOMENDACIÓN</p>
 
           <h3>No hay opciones de disponibilidad activas</h3>
         </div>
       ) : isTie ? (
-        <div className="summary-panel summary-highlight">
+        <div className="summary-panel summary-highlight command-decision command-decision-tie">
           <p className="eyebrow">DECISIÓN DEL ORGANIZADOR</p>
 
           <h3>⚠️ Empate detectado</h3>
@@ -492,7 +492,7 @@ export default function OrganizerResults({
           </div>
         </div>
       ) : (
-        <div className="summary-panel summary-highlight">
+        <div className="summary-panel summary-highlight command-decision command-decision-recommendation">
           <p className="eyebrow">RECOMENDACIÓN AUTOMÁTICA</p>
 
           <h3>Mejor opción</h3>
@@ -644,20 +644,19 @@ export default function OrganizerResults({
       )}
 
       {hasApprovedSchedule && (
-        <OrganizerAnnouncement
-          tournamentId={tournamentId}
-          isAnnounced={isAnnounced}
-        />
-      )}
-
-      {hasApprovedSchedule && (
-        <OrganizerLimitlessDescription
-          tournamentId={tournamentId}
-        />
+        <div className="command-communication-grid">
+          <OrganizerAnnouncement
+            tournamentId={tournamentId}
+            isAnnounced={isAnnounced}
+          />
+          <OrganizerLimitlessDescription
+            tournamentId={tournamentId}
+          />
+        </div>
       )}
 
       {results.ranking.length > 0 && (
-        <div className="summary-panel">
+        <div className="summary-panel command-availability-ranking">
           <p className="eyebrow">TODAS LAS OPCIONES</p>
 
           <h3>Disponibilidad por horario</h3>
