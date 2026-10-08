@@ -46,9 +46,9 @@ export default function LoginPage() {
         <div className="login-brand">
           <Image
             className="login-brand-logo"
-            src="/assets/caramelo-raro-logo.png"
-            width={836}
-            height={836}
+            src="/assets/caramelo-raro-logo.jpg"
+            width={1200}
+            height={1200}
             alt=""
           />
           <span>

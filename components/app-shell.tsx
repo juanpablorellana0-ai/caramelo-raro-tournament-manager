@@ -87,9 +87,9 @@ export function AppShell({ children }: { children: ReactNode }) {
         <Link className="brand" href="/" aria-label="Caramelo Raro, inicio">
           <Image
             className="brand-logo"
-            src="/assets/caramelo-raro-logo.png"
-            width={836}
-            height={836}
+            src="/assets/caramelo-raro-logo.jpg"
+            width={1200}
+            height={1200}
             alt=""
           />
           <span className="brand-copy">
@@ -127,9 +127,9 @@ export function AppShell({ children }: { children: ReactNode }) {
           <Link className="mobile-brand" href="/" aria-label="Caramelo Raro, inicio">
             <Image
               className="brand-logo"
-              src="/assets/caramelo-raro-logo.png"
-              width={836}
-              height={836}
+              src="/assets/caramelo-raro-logo.jpg"
+              width={1200}
+              height={1200}
               alt=""
             />
             <span className="brand-copy">
