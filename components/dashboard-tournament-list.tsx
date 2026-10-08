@@ -18,13 +18,13 @@ export type DashboardTournament = {
   } | null;
 };
 
-const STATUS_LABELS: Record<TournamentStatus, string> = {
-  draft: "Borrador",
-  collecting_availability: "Recopilando disponibilidad",
-  schedule_approved: "Horario aprobado",
-  announced: "Anunciado",
-  completed: "Completado",
-  cancelled: "Cancelado",
+const STATUS_LABELS: Record<TournamentStatus, { label: string; icon: string }> = {
+  draft: { label: "Borrador", icon: "○" },
+  collecting_availability: { label: "Recopilando disponibilidad", icon: "◌" },
+  schedule_approved: { label: "Horario aprobado", icon: "✓" },
+  announced: { label: "Anunciado", icon: "◉" },
+  completed: { label: "Completado", icon: "■" },
+  cancelled: { label: "Cancelado", icon: "×" },
 };
 
 function isDeleteSuccess(value: unknown, tournamentId: string) {
@@ -97,38 +97,54 @@ export default function DashboardTournamentList({
   return (
     <>
       <div className="dashboard-grid" aria-label="Torneos del organizador">
-        {visibleTournaments.map((tournament) => (
-          <article className="summary-panel" key={tournament.id}>
-            <div className="panel-heading">
-              <p className="eyebrow">{STATUS_LABELS[tournament.status]}</p>
-              <span className="status-dot" aria-hidden="true" />
+        {visibleTournaments.map((tournament, index) => (
+          <article
+            className={`summary-panel tournament-card${index === 0 ? " tournament-card-featured" : ""}`}
+            key={tournament.id}
+          >
+            <div className="tournament-card-heading">
+              <span
+                className={`tournament-status tournament-status-${tournament.status}`}
+                role="status"
+              >
+                <span aria-hidden="true">{STATUS_LABELS[tournament.status].icon}</span>
+                {STATUS_LABELS[tournament.status].label}
+              </span>
+              {index === 0 && (
+                <span className="tournament-latest-label">Más reciente</span>
+              )}
             </div>
-            <h2>{tournament.title}</h2>
-            {tournament.weeklyNumber !== null && (
-              <p>Weekly #{tournament.weeklyNumber}</p>
-            )}
-            <p>
-              {[tournament.game, tournament.format].filter(Boolean).join(" · ") ||
-                "Formato no disponible"}
-            </p>
-            {tournament.approvedDate && (
-              <p>Horario aprobado: {tournament.approvedDate}</p>
-            )}
-            <p className="dashboard-task-summary">
-              {tournament.taskSummary === null
-                ? "Resumen de tareas no disponible"
-                : tournament.taskSummary.pendingCount > 0
-                  ? `${tournament.taskSummary.pendingCount} tarea${tournament.taskSummary.pendingCount === 1 ? "" : "s"} pendiente${tournament.taskSummary.pendingCount === 1 ? "" : "s"}`
-                  : tournament.taskSummary.hasTasks
-                    ? "Todas las tareas completadas"
-                    : "Sin tareas todavía"}
-            </p>
+            <div className="tournament-card-content">
+              <h3>{tournament.title}</h3>
+              <p className="tournament-card-meta">
+                {tournament.weeklyNumber !== null && (
+                  <span>#{String(tournament.weeklyNumber).padStart(3, "0")}</span>
+                )}
+                {[tournament.game, tournament.format].filter(Boolean).join(" · ") ||
+                  "Formato no disponible"}
+              </p>
+              {tournament.approvedDate && (
+                <p className="tournament-approved-date">
+                  <span aria-hidden="true">◷</span>
+                  {tournament.approvedDate}
+                </p>
+              )}
+              <p className="dashboard-task-summary">
+                {tournament.taskSummary === null
+                  ? "Resumen de tareas no disponible"
+                  : tournament.taskSummary.pendingCount > 0
+                    ? `${tournament.taskSummary.pendingCount} tarea${tournament.taskSummary.pendingCount === 1 ? "" : "s"} pendiente${tournament.taskSummary.pendingCount === 1 ? "" : "s"}`
+                    : tournament.taskSummary.hasTasks
+                      ? "Todas las tareas completadas"
+                      : "Sin tareas todavía"}
+              </p>
+            </div>
             <div className="dashboard-tournament-actions">
               <Link
-                className="button button-secondary"
+                className="tournament-open-link"
                 href={`/organizer/tournament?tournamentId=${tournament.id}`}
               >
-                Abrir torneo
+                Abrir torneo <span aria-hidden="true">→</span>
               </Link>
               {(tournament.status === "draft" ||
                 tournament.status === "collecting_availability") && (

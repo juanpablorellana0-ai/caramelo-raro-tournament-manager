@@ -154,12 +154,12 @@ export default async function HomePage() {
 
   if (dashboard.kind === "unauthenticated") {
     return (
-      <div className="page-stack">
-        <section className="welcome-row">
+      <div className="page-stack cr-dashboard">
+        <section className="dashboard-welcome">
           <div>
-            <p className="eyebrow">CENTRO DE TORNEOS</p>
-            <h1>Tu próximo torneo, en marcha.</h1>
-            <p className="lede">
+            <p className="eyebrow">CARAMELO RARO · ORGANIZACIÓN</p>
+            <h1>Centro de torneos</h1>
+            <p className="lede dashboard-lede">
               Inicia sesión para consultar y continuar organizando tus torneos.
             </p>
           </div>
@@ -173,17 +173,24 @@ export default async function HomePage() {
 
   if (dashboard.kind === "error") {
     return (
-      <div className="page-stack">
-        <section className="welcome-row">
+      <div className="page-stack cr-dashboard">
+        <section className="dashboard-welcome">
           <div>
-            <p className="eyebrow">CENTRO DE TORNEOS</p>
-            <h1>Tu próximo torneo, en marcha.</h1>
+            <p className="eyebrow">CARAMELO RARO · ORGANIZACIÓN</p>
+            <h1>Centro de torneos</h1>
+            <p className="lede dashboard-lede">
+              Organiza y sigue la actividad de tus jornadas competitivas.
+            </p>
           </div>
-          <Link className="button button-secondary" href="/organizer">
+          <Link
+            className="button button-secondary"
+            href="/organizer"
+          >
             Abrir organizador <span aria-hidden="true">↗</span>
           </Link>
         </section>
-        <section className="summary-panel" role="alert">
+        <section className="summary-panel dashboard-error-panel" role="alert">
+          <p className="eyebrow">ESTADO DEL SISTEMA</p>
           <h2>No fue posible cargar los torneos</h2>
           <p>
             Intenta actualizar la página. Si el problema continúa, vuelve a
@@ -220,85 +227,108 @@ export default async function HomePage() {
   );
 
   return (
-    <div className="page-stack">
-      <section className="welcome-row">
+    <div className="page-stack cr-dashboard">
+      <section className="dashboard-welcome">
         <div>
-          <p className="eyebrow">CENTRO DE TORNEOS</p>
-          <h1>Tu próximo torneo, en marcha.</h1>
-          <p className="lede">
-            Consulta el estado y continúa organizando tus torneos desde aquí.
+          <p className="eyebrow">CARAMELO RARO · ORGANIZACIÓN</p>
+          <h1>Centro de torneos</h1>
+          <p className="lede dashboard-lede">
+            Coordina tus jornadas competitivas y mantén cada torneo en marcha.
           </p>
         </div>
 
-        <div className="button-group">
-          <Link className="button button-primary" href="/organizer/new">
-            Crear torneo <span aria-hidden="true">→</span>
-          </Link>
-          <Link className="button button-secondary" href="/organizer">
+        <div className="dashboard-quick-actions">
+          {tournaments.length > 0 && (
+            <Link
+              className="button button-primary dashboard-create-button"
+              href="/organizer/new"
+            >
+              <span aria-hidden="true">+</span> Crear torneo
+            </Link>
+          )}
+          <Link
+            className="button button-secondary dashboard-organizer-button"
+            href="/organizer"
+          >
             Abrir organizador
           </Link>
         </div>
       </section>
 
       {tournaments.length === 0 ? (
+        <section className="dashboard-empty summary-panel">
+          <span className="dashboard-empty-mark" aria-hidden="true">
+            <svg viewBox="0 0 32 32" fill="none">
+              <path d="M16 4v24M4 16h24" />
+              <circle cx="16" cy="16" r="11.5" />
+            </svg>
+          </span>
+          <p className="eyebrow">TU ESPACIO DE COMPETICIÓN</p>
+          <h2>Todavía no has creado ningún torneo</h2>
+          <p>
+            Organiza tu primera jornada de Caramelo Raro y coordina aquí cada
+            paso de la competición.
+          </p>
+          <Link
+            className="button button-primary dashboard-create-button"
+            href="/organizer/new"
+          >
+            <span aria-hidden="true">+</span> Crear torneo
+          </Link>
+        </section>
+      ) : (
         <>
-          <section className="dashboard-grid" aria-label="Resumen">
-            <article className="summary-panel summary-highlight">
-              <div className="panel-heading">
-                <p className="eyebrow">ACTIVIDAD</p>
-                <span className="status-dot" aria-label="Preparado" />
-              </div>
-              <h2>Todo listo para empezar</h2>
-              <p>
-                El espacio de organización está preparado para tu primer
-                torneo.
-              </p>
-              <Link className="text-link" href="/organizer">
-                Ir al área de organización <span aria-hidden="true">→</span>
-              </Link>
+          <section
+            className="dashboard-metrics"
+            aria-label="Resumen de actividad"
+          >
+            <article className="dashboard-metric">
+              <span className="dashboard-metric-label">Torneos</span>
+              <strong>{tournaments.length}</strong>
+              <span className="dashboard-metric-detail">En seguimiento</span>
             </article>
-
-            <article className="summary-panel">
-              <p className="eyebrow">PRÓXIMO PASO</p>
-              <div className="step-mark" aria-hidden="true">
-                01
-              </div>
-              <h2>Define una fecha</h2>
-              <p>
-                Prepara una encuesta para conocer la disponibilidad de
-                participantes.
-              </p>
+            <article className="dashboard-metric">
+              <span className="dashboard-metric-label">Pendientes</span>
+              <strong>
+                {Object.values(taskSummaries).some((summary) => summary === null)
+                  ? "—"
+                  : Object.values(taskSummaries).reduce(
+                      (total, summary) => total + (summary?.pendingCount ?? 0),
+                      0,
+                    )}
+              </strong>
+              <span className="dashboard-metric-detail">Tareas por completar</span>
+            </article>
+            <article className="dashboard-metric">
+              <span className="dashboard-metric-label">Completados</span>
+              <strong>
+                {
+                  tournaments.filter(
+                    (tournament) => tournament.status === "completed",
+                  ).length
+                }
+              </strong>
+              <span className="dashboard-metric-detail">Torneos finalizados</span>
             </article>
           </section>
 
-          <section className="quiet-strip" aria-label="Estado del espacio">
-            <span className="quiet-icon" aria-hidden="true">
-              ✳
-            </span>
-            <span>Sin torneos todavía</span>
-            <span className="quiet-separator" aria-hidden="true">
-              /
-            </span>
-            <span className="quiet-detail">
-              Tu actividad aparecerá aquí cuando crees el primero.
-            </span>
+          <section
+            className="dashboard-tournaments-section"
+            aria-labelledby="tournaments-heading"
+          >
+            <header className="dashboard-section-heading">
+              <div>
+                <p className="eyebrow">ACTIVIDAD RECIENTE</p>
+                <h2 id="tournaments-heading">Tus torneos</h2>
+              </div>
+              <span className="dashboard-section-count">
+                {tournaments.length}{" "}
+                {tournaments.length === 1 ? "torneo" : "torneos"}
+              </span>
+            </header>
+            <DashboardTournamentList tournaments={dashboardTournaments} />
           </section>
         </>
-      ) : (
-        <section className="page-stack" aria-labelledby="tournaments-heading">
-          <header className="page-heading">
-            <p className="eyebrow">ACTIVIDAD</p>
-            <h2 id="tournaments-heading">Tus torneos</h2>
-            <p className="lede">
-              {tournaments.length}{" "}
-              {tournaments.length === 1
-                ? "torneo en seguimiento"
-                : "torneos en seguimiento"}
-            </p>
-          </header>
-
-          <DashboardTournamentList tournaments={dashboardTournaments} />
-        </section>
       )}
     </div>
   );

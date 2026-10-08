@@ -39,31 +39,25 @@ export default function LoginPage() {
   }
 
   return (
-    <main className="flex min-h-screen items-center justify-center px-4">
-      <section className="w-full max-w-md rounded-2xl border p-6 shadow-sm">
-        <div className="mb-6">
-          <p className="text-sm font-medium text-gray-500">
-            Caramelo Raro
-          </p>
-
-          <h1 className="mt-1 text-2xl font-bold">
-            Iniciar sesión
-          </h1>
-
-          <p className="mt-2 text-sm text-gray-600">
-            Accede al panel de organización de torneos.
-          </p>
+    <div className="login-page">
+      <section className="login-panel" aria-labelledby="login-title">
+        <div className="login-brand">
+          <span className="login-brand-mark" aria-hidden="true">CR</span>
+          <span>
+            <span className="login-brand-name">Caramelo Raro</span>
+            <span className="login-brand-product">Tournament Manager</span>
+          </span>
         </div>
 
-        <form onSubmit={handleLogin} className="space-y-4">
-          <div>
-            <label
-              htmlFor="email"
-              className="mb-1 block text-sm font-medium"
-            >
-              Correo electrónico
-            </label>
+        <div className="login-heading">
+          <p className="eyebrow">ACCESO DE ORGANIZADOR</p>
+          <h1 id="login-title">Iniciar sesión</h1>
+          <p>Accede al panel de organización de torneos.</p>
+        </div>
 
+        <form onSubmit={handleLogin} className="login-form">
+          <div className="login-field">
+            <label htmlFor="email">Correo electrónico</label>
             <input
               id="email"
               type="email"
@@ -71,18 +65,11 @@ export default function LoginPage() {
               value={email}
               onChange={(event) => setEmail(event.target.value)}
               required
-              className="w-full rounded-lg border px-3 py-2"
             />
           </div>
 
-          <div>
-            <label
-              htmlFor="password"
-              className="mb-1 block text-sm font-medium"
-            >
-              Contraseña
-            </label>
-
+          <div className="login-field">
+            <label htmlFor="password">Contraseña</label>
             <input
               id="password"
               type="password"
@@ -90,28 +77,26 @@ export default function LoginPage() {
               value={password}
               onChange={(event) => setPassword(event.target.value)}
               required
-              className="w-full rounded-lg border px-3 py-2"
             />
           </div>
 
           {error && (
-            <p
-              role="alert"
-              className="rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700"
-            >
-              {error}
-            </p>
+            <div className="login-error" role="alert">
+              <span className="login-error-icon" aria-hidden="true">!</span>
+              <div>
+                <strong>Error de acceso</strong>
+                <p>{error}</p>
+              </div>
+            </div>
           )}
 
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full rounded-lg bg-black px-4 py-2 font-medium text-white disabled:opacity-50"
-          >
+          <button type="submit" disabled={loading} className="button button-primary login-submit">
             {loading ? "Iniciando sesión..." : "Iniciar sesión"}
+            {!loading && <span aria-hidden="true">→</span>}
           </button>
         </form>
+        <p className="login-footnote">Acceso seguro para organizadores</p>
       </section>
-    </main>
+    </div>
   );
 }
